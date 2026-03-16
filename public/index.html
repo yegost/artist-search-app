@@ -7,12 +7,25 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <h1>Search an artist</h1>
-        <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Search for an artist...">
-            <button id="search-btn">Search</button>
+        <div id="search-page">
+            <div class="search-header">
+                <div class="search-wrapper">
+                    <h3>Search for an artist</h3>
+                    <div class="search-bar">
+                        <input type="text" id="search-input" placeholder="Who would you like to search...">
+                    </div>
+                    <div id="results"></div>
+                </div>
+            </div>
         </div>
-        <div id="results"></div>
+        <div id="artist-page" class="hidden">
+            <div id="artist-header"></div>
+            <div id="albums-section"></div>
+        </div>
+        <div id="album-page" class="hidden">
+            <div id="album-header"></div>
+            <div id="tracks-list"></div>
+        </div>
         <script src="script.js"></script>
     </body>
 </html>

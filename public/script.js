@@ -1,10 +1,12 @@
-const searchBtn = document.getElementById('search-btn');
 const searchBar = document.getElementById('search-input');
 const results = document.getElementById('results');
 
-searchBtn.addEventListener('click', async () => {
+searchBar.addEventListener('input', async () => {
     const artist = searchBar.value;
-    if (!artist) return;
+    if (!artist) {
+        results.innerHTML = '';
+        return;
+    };
 
     const res = await fetch(`/search?artist=${artist}`);
     const data = await res.json()
@@ -13,11 +15,17 @@ searchBtn.addEventListener('click', async () => {
     data.forEach(artist => {
         results.innerHTML += `
             <div class="artist-result" data-id="${artist.id}">
-                <img src="${artist.images[2]?.url}" alt="${artist.name}" />
+                <img src="${artist.images[2]?.url || '/images/placeholder.png'}" alt="${artist.name}" />
                 <p>${artist.name}</p>
             </div>
         `
     });
+})
+
+searchBar.addEventListener('blur', () => {
+    setTimeout(() => {
+        results.innerHTML = ``
+    }, 150)
 })
 
 results.addEventListener('click', async (e) => {
@@ -32,7 +40,7 @@ results.addEventListener('click', async (e) => {
     const albumsData = await albumsRes.json()
 
     results.innerHTML = ''
-
+/*
     results.innerHTML = `
         <div id="artist-page">
             <div id="artist-header">
@@ -57,4 +65,5 @@ results.addEventListener('click', async (e) => {
             </div>
         </div>
     `
+*/
 })
