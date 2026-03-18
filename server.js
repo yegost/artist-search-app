@@ -8,7 +8,14 @@ dotenv.config()
 
 app.use(express.static('public'))
 
+let cachedToken = null
+let tokenExpiry = null
+
 async function getToken() {
+    if (cachedToken && Date.now() < tokenExpiry) {
+        return cachedToken
+    }
+
     const response = await fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
         headers: {
@@ -19,8 +26,11 @@ async function getToken() {
         },
         body: 'grant_type=client_credentials'
     })
+
     const data = await response.json()
-    return data.access_token
+    cachedToken = data.access_token
+    tokenExpiry = Date.now() + (data.expires_in - 60) * 1000
+    return cachedToken
 }
 
 app.get('/search', async (req, res) => {
