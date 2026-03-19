@@ -12,7 +12,8 @@ const albumTracks = document.getElementById('tracks-list')
 let debounceTimer
 const state = {
     currentArtist: null,
-    currentAlbum: null
+    currentAlbum: null,
+    currentAlbums: null
 }
 
 async function api(url) {
@@ -195,6 +196,7 @@ results.addEventListener('click', async (e) => {
     state.currentArtist = { name, image, id, spotifyUrl }
 
     const albumsData = await getArtistAlbums(id)
+    state.currentAlbums = albumsData
     renderArtistPage(name, image, albumsData)
     showPage(artistPage)
 })
@@ -208,7 +210,10 @@ albumsSection.addEventListener('click', async (e) => {
     const albumName = card.querySelector('h4').textContent
     const releaseDate = card.querySelector('p').textContent
 
-    const albumData = await getAlbumData(id)
+    const albumData = state.currentAlbum?.id === id
+        ? state.currentAlbum
+        : await getAlbumData(id)
+    state.currentAlbum = albumData
     renderAlbumPage(albumData, albumImage, albumName, releaseDate)
 
     showPage(albumPage)
