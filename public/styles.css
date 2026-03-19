@@ -290,6 +290,15 @@ main {
 }
 
     /* Tracks section */
+.disc-header {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 12px 8px 4px 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border)
+}
 .track-header {
     display: flex;
     align-items: center;
