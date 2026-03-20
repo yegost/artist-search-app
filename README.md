@@ -2,16 +2,17 @@
 
 A music discovery app built with Node.js and the Spotify API. Search for any artist and explore their profile, albums, and tracklists.
 
-> ⚠️ This project is currently a work in progress.
-
 ## Features
 
 - Search for artists with live autocomplete dropdown
 - View artist profile with photo and albums
+- Click any album to see its full tracklist
+- Working back and home buttons
 - Debounced search to avoid API rate limiting
 
 ## To do
-- Click any album to see its full tracklist
+
+- Add a bio to the artist
 
 ## Tech Stack
 
