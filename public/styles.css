@@ -176,10 +176,50 @@ main {
 }
 
     /* Home page */
+#home-page {
+    padding: 3rem 0;
+}
+
 #home-page h1 {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 600;
-    margin: 2rem 0;
+    margin-bottom: 1rem;
+    color: var(--accent);
+}
+
+#home-page > p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+.home-steps {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.home-step {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 1.25rem;
+    flex: 1;
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.home-step span {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.home-step p {
+    font-size: 14px;
+    color: var(--text-secondary);
 }
 
     /* Artist profile */
