@@ -5,20 +5,19 @@ A music discovery app built with Node.js and the Spotify API. Search for any art
 ## Features
 
 - Search for artists with live autocomplete dropdown
-- View artist profile with photo and albums
-- Click any album to see its full tracklist
-- Working back and home buttons
+- View artist profile with photo and Wikipedia bio
+- Browse an artist's discography with album artwork
+- Click any album to see its full tracklist with duration
+- Multi-disc album support
+- Working back and home navigation buttons
 - Debounced search to avoid API rate limiting
-
-## To do
-
-- Add a bio to the artist
+- Token caching to reduce Spotify API calls
 
 ## Tech Stack
 
 - **Frontend** — HTML, CSS, vanilla JavaScript
 - **Backend** — Node.js, Express
-- **API** — Spotify Web API
+- **APIs** — Spotify Web API, Wikipedia REST API
 
 ## Getting Started
 
@@ -66,3 +65,8 @@ A music discovery app built with Node.js and the Spotify API. Search for any art
 Authentication uses the **Client Credentials Flow** — no user login required.
 
 > Note: Spotify has restricted several endpoints for apps in development mode. Features like top tracks, followers, genres, and song previews are no longer available.
+
+### Wikipedia REST API
+- `GET /page/summary/{name}` — get a short bio for an artist
+
+No authentication required.
