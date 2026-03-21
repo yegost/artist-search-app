@@ -82,6 +82,27 @@ app.get('/albums/:id', async (req, res) => {
     }
 })
 
+app.get('/bio/:name', async (req, res) => {
+    const name = req.params.name
+    try {
+        let response = await fetch(
+            `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name)}`
+        )
+        let data = await response.json()
+
+        if (data.type === 'disambiguation' || !data.extract) {
+            response = await fetch(
+                `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(name + ' (musician)')}`
+            )
+            data = await response.json()
+        }
+
+        res.json({ bio: data.extract || null })
+    } catch (error) {
+        res.status(500).json({ error: 'something went wrong' })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`server running on http://localhost:${PORT}`)
 })

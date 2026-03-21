@@ -4,6 +4,7 @@ const homePage = document.getElementById('home-page')
 const artistPage = document.getElementById('artist-page')
 const artistHeader = document.getElementById('artist-header')
 const albumsSection = document.getElementById('albums-section')
+const bioSection = document.getElementById('bio-section')
 const albumPage = document.getElementById('album-page')
 const albumHeader = document.getElementById('album-header')
 const albumTracks = document.getElementById('tracks-list')
@@ -55,6 +56,16 @@ async function getAlbumData(id) {
     }
 }
 
+async function getBio(name) {
+    try {
+        const response = await api(`/bio/${encodeURIComponent(name)}`)
+        return response.bio
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
 function formatDuration(ms) {
     const hours = Math.floor(ms / 3600000)
     const minutes = Math.floor((ms % 3600000) / 60000)
@@ -83,7 +94,7 @@ function renderSearchResults(artists) {
     })
 }
 
-function renderArtistPage(name, image, albumsData) {
+function renderArtistPage(name, image, albumsData, bio) {
     results.innerHTML = ''
     searchBar.value = ''
 
@@ -109,6 +120,12 @@ function renderArtistPage(name, image, albumsData) {
                 `).join('')}
         </div>
     `
+
+    bioSection.innerHTML = bio 
+        ? `<hr>
+           <h3 class="bio-header">About ${name}</h3>
+           <p class="bio-text">${bio}</p>`
+        : ''
 }
 
 function renderAlbumPage(albumData, albumImage, albumName, releaseDate) {
@@ -143,7 +160,7 @@ function renderAlbumPage(albumData, albumImage, albumName, releaseDate) {
             <span>Time</span>
         </div>
             ${albumData.tracks.items.map(track => `
-                ${track.disc_number > 1 && track.track_number === 1
+                ${track.track_number === 1 && track.disc_number >= 1 && albumData.tracks.items.filter(t => t.disc_number > 1).length > 0
                     ? `<div class="disc-header">Disc ${track.disc_number}</div>`
                     : ''
                 }
@@ -186,18 +203,18 @@ searchBar.addEventListener('blur', () => {
 results.addEventListener('click', async (e) => {
     const card = e.target.closest('.artist-result')
     if (!card) return
-
     
     const id = card.dataset.id
     const spotifyUrl = card.dataset.spotifyUrl
     const name = card.querySelector('p').textContent
     const image = card.querySelector('img').src
+    const bio = await getBio(name)
     
-    state.currentArtist = { name, image, id, spotifyUrl }
+    state.currentArtist = { name, image, id, spotifyUrl, bio }
 
     const albumsData = await getArtistAlbums(id)
     state.currentAlbums = albumsData
-    renderArtistPage(name, image, albumsData)
+    renderArtistPage(name, image, albumsData, bio)
     showPage(artistPage)
 })
 
@@ -229,5 +246,6 @@ artistBtn.addEventListener('click', () => {
     if (!state.currentArtist) return
     albumPage.classList.add('hidden')
     homePage.classList.add('hidden')
+    renderArtistPage(state.currentArtist.name, state.currentArtist.image, state.currentAlbums, state.currentArtist.bio)
     artistPage.classList.remove('hidden')
 })
