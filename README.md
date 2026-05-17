@@ -2,6 +2,8 @@
 
 A music discovery app built with Node.js and the Spotify API. Search for any artist and explore their profile, albums, and tracklists.
 
+![image alt](https://github.com/yegost/artist-search-app/blob/74eb5d8011f65dea8f95304605dbab6c8b3fa1f4/artistsearch.png)
+
 ## Features
 
 - Search for artists with live autocomplete dropdown
